@@ -1,0 +1,54 @@
+<div class="container">
+    <button (click)="connectScanner()" type="button" class="btn btn-primary">Connect</button>
+    <button [disabled]="!ready" (click)="initializeScanner()" type="button" class="btn btn-primary">Initialize
+        Scanner</button>
+    <button (click)="scan()" [disabled]="!initialized" type="button" class="btn btn-primary">Scan</button>
+</div>
+<div class="clearfix" *ngIf="imageUrl">
+    <img class="rounded float-left" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+imageUrl[1])"
+        alt="..." width="696px" height="393px">
+    <img class="rounded float-left" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+imageUrl[2])"
+        alt="..." width="696px" height="393px">
+</div>
+<div>
+    <table id="dt-basic-checkbox" class="table" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th class="th-sm">Serial
+                </th>
+                <th class="th-sm">SortCode
+                </th>
+                <th class="th-sm">VoucherType
+                </th>
+                <th class="th-sm">AccountNumber
+                </th>
+                <th class="th-sm">Amount
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--<tr>
+                <td>0</td>
+                <td>0</td>
+                <td>gg</td>
+                <td>fg</td>
+                <td>cc</td>
+            </tr> -->
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <th class="th-sm">Serial
+                </th>
+                <th class="th-sm">Sort Code
+                </th>
+                <th class="th-sm">Voucher Type
+                </th>
+                <th class="th-sm">Account Number
+                </th>
+                <th class="th-sm">Amount
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
