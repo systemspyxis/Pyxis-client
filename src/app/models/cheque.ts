@@ -7,5 +7,16 @@ export interface Cheque{
     accountNumber:string;
     amount:number;
     payeeName:string;
+    narration:string;
     Images:ChequeImage[];
+    depositorsAccount:string;
+    depositorsBranch:string;
+    depositorsNarration:string;
+    batchGuid:string;
+    recordID:string;
+    transactionCaptureDate:string;
+    transactionCapturedBy:string;
+    transactionAuthorisedDate:string;
+    transactionexportDate:string;
+    stage:string
 }

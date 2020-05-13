@@ -1,54 +1,37 @@
+<p-toast></p-toast>
 <div class="container">
     <button (click)="connectScanner()" type="button" class="btn btn-primary">Connect</button>
     <button [disabled]="!ready" (click)="initializeScanner()" type="button" class="btn btn-primary">Initialize
         Scanner</button>
     <button (click)="scan()" [disabled]="!initialized" type="button" class="btn btn-primary">Scan</button>
+    <button (click)="showInfo()"  type="button" class="btn btn-success">Save Batch</button>
 </div>
-<div class="clearfix" *ngIf="imageUrl">
-    <img class="rounded float-left" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+imageUrl[1])"
+<div class="clearfix">
+    <img *ngIf="imageUrl" class="rounded float-left" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+imageUrl[1])"
         alt="..." width="696px" height="393px">
-    <img class="rounded float-left" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+imageUrl[2])"
+    <img *ngIf="imageUrl" class="rounded float-left" [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+imageUrl[2])"
         alt="..." width="696px" height="393px">
 </div>
 <div>
-    <table id="dt-basic-checkbox" class="table" cellspacing="0" width="100%">
-        <thead>
+    <p-table [columns]="cols" [value]="ScannedCheques" selectionMode="single" [(selection)]="SelectedCheque" (onRowSelect)="onRowSelect($event)">
+        <ng-template pTemplate="header" let-columns>
             <tr>
-                <th class="th-sm">Serial
-                </th>
-                <th class="th-sm">SortCode
-                </th>
-                <th class="th-sm">VoucherType
-                </th>
-                <th class="th-sm">AccountNumber
-                </th>
-                <th class="th-sm">Amount
+                <th *ngFor="let col of columns">
+                    {{col.header}}
                 </th>
             </tr>
-        </thead>
-        <tbody>
-            <!--<tr>
-                <td>0</td>
-                <td>0</td>
-                <td>gg</td>
-                <td>fg</td>
-                <td>cc</td>
-            </tr> -->
-
-        </tbody>
-        <tfoot>
-            <tr>
-                <th class="th-sm">Serial
-                </th>
-                <th class="th-sm">Sort Code
-                </th>
-                <th class="th-sm">Voucher Type
-                </th>
-                <th class="th-sm">Account Number
-                </th>
-                <th class="th-sm">Amount
-                </th>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                </td>
             </tr>
-        </tfoot>
-    </table>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div style="text-align: left">
+                Selected Cheque: {{SelectedCheque ? SelectedCheque.accountNumber + ' - ' + SelectedCheque.serialNumber : 'none'}}
+            </div>
+        </ng-template>
+    </p-table>
 </div>

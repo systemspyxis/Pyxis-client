@@ -2,14 +2,19 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Cheque } from '../models/cheque';
 import { HubConnectionBuilder, HubConnection } from "@microsoft/signalr";
-import { ExportChequeComponent } from '../export-cheque/export-cheque.component';
-import { AuthorizeChequeComponent } from '../authorize-cheque/authorize-cheque.component';
+import { MessageService } from 'primeng/api';
+import { CoreDataService } from '../services/core-data.service';
+
+
+
 declare var $: any;
 
 @Component({
   selector: 'capture-cheque',
-  templateUrl: './capture-cheque.component.html',
-  styleUrls: ['./capture-cheque.component.css']
+  templateUrl: './capture-cheque-feature.component.html',
+  styleUrls: ['./capture-cheque.component.css'],
+  preserveWhitespaces: true,
+  providers: [MessageService]
 })
 export class CaptureChequeComponent implements OnInit, AfterViewInit {
 
@@ -19,34 +24,35 @@ export class CaptureChequeComponent implements OnInit, AfterViewInit {
   ready: boolean = false;
   initialized: boolean = false;
   ScannedCheques: Cheque[] = [];
-  constructor(public domSanitizer: DomSanitizer) { }
+  SelectedCheque: Cheque = {} as Cheque;
+  DepositSlip: Cheque = {} as Cheque;
+  cols: any[];
+  batchTotal = 0;
+  constructor(private coreDataService:CoreDataService, public domSanitizer: DomSanitizer, private messageService: MessageService) { }
   ngAfterViewInit(): void {
-    $(document).ready(function () {
-      $('#dt-basic-checkbox').dataTable({
-        select: {
-          style: 'os',
-          items: 'row'
-        },
-        "ordering": false
-      });
-    });
+
 
   }
-  refreshtable(row:Cheque) {
-    var table = $('#dt-basic-checkbox').DataTable();
-    console.log("dataTable",table)
-    table.row.add([row.serialNumber,row.sortCode,row.voucherType,row.accountNumber,row.amount]).draw();
 
-  }
   ngOnInit(): void {
+    this.cols = [
+      { field: 'accountNumber', header: 'Account Number' },
+      { field: 'serialNumber', header: 'Cheque Number' },
+      { field: 'sortCode', header: 'Bank' },
+      { field: 'voucherType', header: 'Voucher' },
+      { field: 'amount', header: 'Amount' }
+
+    ];
   }
   connectScanner() {
     this.connection = new HubConnectionBuilder().withUrl("https://localhost:5001/scanhub").build();
     this.connection.start().then(() => {
       console.log("Scanner Connected");
+      this.messageService.add({ severity: 'info', summary: 'Info Message', detail: 'Scanner Connected' })
       this.ready = true;
       this.connection.on("initResult", (user, message) => {
         console.log("Received", message)
+        this.messageService.add({ severity: 'info', summary: 'Scanner Init', detail: message })
         this.initialized = true;
         //this.imageUrl="data:image/jpeg;base64,"+message ;
       });
@@ -56,20 +62,22 @@ export class CaptureChequeComponent implements OnInit, AfterViewInit {
         //debugger;
         result.forEach(element => {
           console.log("element", element)
-          var cheque: Cheque = {
-            Images: element.images,
-            accountNumber: element.micr[0],
-            amount: 0,
-            payeeName: "",
-            serialNumber: element.micr[1],
-            sortCode: element.micr[2],
-            voucherType: element.micr[3]
-          };
+          var cheque: Cheque = {} as Cheque;
+          cheque.Images = element.images,
+            cheque.accountNumber = element.micr[0],
+            cheque.amount = 0,
+            cheque.payeeName = "",
+            cheque.serialNumber = element.micr[1],
+            cheque.sortCode = element.micr[2],
+            cheque.voucherType = element.micr[3],
+            cheque.narration="",
+            cheque.payeeName=""
+            
 
           this.ScannedCheques.push(cheque);
           console.log("scanned", this.ScannedCheques)
-          this.refreshtable(cheque);
         });
+        this.SelectedCheque = this.ScannedCheques.slice(-1)[0];
       });
     })
       .catch((err) => {
@@ -81,6 +89,25 @@ export class CaptureChequeComponent implements OnInit, AfterViewInit {
   }
   scan() {
     this.connection.invoke("Scan", "user", "message").catch(err => console.error(err));
+  }
+
+  onRowSelect(event) {
+    this.imageUrl = event.data.Images;
+  }
+  saveBatch() {
+    this.ScannedCheques.forEach(item=>{
+      item.depositorsAccount=this.DepositSlip.depositorsAccount;
+      item.depositorsBranch=this.DepositSlip.depositorsBranch;
+      item.depositorsNarration=this.DepositSlip.depositorsNarration;
+      item.payeeName=(!!this.DepositSlip.payeeName)?this.DepositSlip.payeeName:"";
+
+    });
+    this.coreDataService.SaveModel(this.ScannedCheques);
+  }
+
+
+  batchBalancing(): boolean {
+    return (this.batchTotal !== this.ScannedCheques.map(x => x.amount).reduce((x, y) => x + y, 0))||(this.batchTotal===0)
   }
 
 }
