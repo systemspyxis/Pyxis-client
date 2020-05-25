@@ -1,1 +1,36 @@
-<p>export-cheque works!</p>
+
+
+<div class="p-grid nested-grid sample-layout">
+    <div class="p-col-12 p-md-12  p-col-nogutter">
+        <div class="p-col-12 p-col-nogutter">
+            
+            <button pButton (click)="export()" type="button" label="Export Files" class="ui-button-primary"></button>
+        </div>
+        
+        <div class="p-col-12">
+            <p-table [columns]="cols" [value]="ScannedCheques" selectionMode="single" [(selection)]="SelectedCheque">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{col.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr [pSelectableRow]="rowData">
+                        <td *ngFor="let col of columns">
+                            {{rowData[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div style="text-align: left">
+                        Selected Cheque:
+                        {{SelectedCheque ? SelectedCheque.accountNumber + ' - ' + SelectedCheque.serialNumber : 'none'}}
+                    </div>
+                </ng-template>
+            </p-table>
+        </div>
+
+    </div>
+</div>

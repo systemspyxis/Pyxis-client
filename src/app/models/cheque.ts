@@ -8,12 +8,12 @@ export interface Cheque{
     amount:number;
     payeeName:string;
     narration:string;
-    Images:ChequeImage[];
+    Images:string[];
     depositorsAccount:string;
     depositorsBranch:string;
     depositorsNarration:string;
     batchGuid:string;
-    recordID:string;
+    modelID:string;
     transactionCaptureDate:string;
     transactionCapturedBy:string;
     transactionAuthorisedDate:string;

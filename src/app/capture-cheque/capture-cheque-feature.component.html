@@ -1,4 +1,14 @@
 <p-toast></p-toast>
+<p-dialog header="Error" [(visible)]="displaySaveError" [modal]="true" [style]="{width: '50vw'}"
+[baseZIndex]="10000">
+    Error Occured while Saving
+    <p>Error Message: {{errorMessage}}</p>
+</p-dialog>
+<p-dialog header="Error" [(visible)]="displaySaveSuccess" [modal]="true" [style]="{width: '50vw'}"
+[baseZIndex]="10000">
+    Success!!
+    <p>Successfully Captured: {{ScannedCheques.length}} Cheque(s)</p>
+</p-dialog>
 <div class="p-grid nested-grid sample-layout">
     <div class="p-col-12 p-md-12  p-col-nogutter">
         <div class="p-col-12 p-col-nogutter">

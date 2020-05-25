@@ -1,5 +1,5 @@
 export interface ChequeImage{
-    backTiff:string;
+    frontTiff:string;
     frontJpeg:string;
     backJpeg:string;
 }

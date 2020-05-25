@@ -16,13 +16,16 @@ import {ToastModule} from 'primeng/toast';
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
+import {DialogModule} from 'primeng/dialog';
+import { AdminComponentComponent } from './Admin/admin-component/admin-component.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CaptureChequeComponent,
     AuthorizeChequeComponent,
-    ExportChequeComponent
+    ExportChequeComponent,
+    AdminComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,8 @@ import {CardModule} from 'primeng/card';
     ToastModule,
     ButtonModule,
     InputTextModule,
-    CardModule
+    CardModule,
+    DialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

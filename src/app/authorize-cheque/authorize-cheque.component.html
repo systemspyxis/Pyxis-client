@@ -1,11 +1,23 @@
 <p-toast></p-toast>
-<p-toast></p-toast>
+<p-dialog header="Rejection Reason" [(visible)]="displayBasic" [modal]="true" [style]="{width: '50vw'}"
+    [baseZIndex]="10000">
+    Please Provide A reson for Rejecting
+    <div class="p-col-2">
+        <label for="CRAccount">Reason</label>
+        <input id="ChequeNumber" type="text" [(ngModel)]="DepositSlip.payeeName" pInputText>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="displayBasic=false" label="Yes"></button>
+        <button type="button" pButton icon="pi pi-times" (click)="displayBasic=false" label="No"
+            class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
+
 <div class="p-grid nested-grid sample-layout">
     <div class="p-col-12 p-md-12  p-col-nogutter">
         <div class="p-col-12 p-col-nogutter">
             <button pButton (click)="reject()" type="button" label="Reject" class="ui-button-danger"></button>
-            <button pButton  (click)="accept()" type="button" label="Accept"
-                class="ui-button-primary"></button>
+            <button pButton (click)="accept()" type="button" label="Accept" class="ui-button-primary"></button>
         </div>
         <div class="p-col-12">
             <div class="p-grid">
@@ -16,95 +28,58 @@
                         [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,'+imageUrl[2])" alt="..."
                         style="width:100%" height="393px"></div>
                 <div class="p-col-4">
-                    <p-table [columns]="cols" [value]="ScannedCheques" selectionMode="single"
-                        [(selection)]="SelectedCheque" (onRowSelect)="onRowSelect($event)">
-                        <ng-template pTemplate="header" let-columns>
-                            <tr>
-                                <th *ngFor="let col of columns">
-                                    {{col.header}}
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-rowData let-columns="columns">
-                            <tr [pSelectableRow]="rowData">
-                                <td *ngFor="let col of columns">
-                                    {{rowData[col.field]}}
-                                </td>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="summary">
-                            <div style="text-align: left">
-                                Selected Cheque:
-                                {{SelectedCheque ? SelectedCheque.accountNumber + ' - ' + SelectedCheque.serialNumber : 'none'}}
-                            </div>
-                        </ng-template>
-                    </p-table>
+                    <p-card *ngIf="SelectedCheque" header="Summary" styleClass="ui-card-shadow">
+                        <div>
+                            <h3>Account Name: {{SelectedCheque.payeeName}}</h3>
+                        </div>
+                        <div>
+                            <h3>Currency: KES</h3>
+                        </div>
+                        <div>
+                            <h3>Status:ACTIVE</h3>
+                        </div>
+                        <div>
+                            <h3>Depositors Account: {{SelectedCheque.depositorsAccount}}</h3>
+                        </div>
+                        <div>
+                            <h3>Depositors Branch: {{SelectedCheque.depositorsBranch}}</h3>
+                        </div>
+                        <div>
+                            <h3>Captured By:{{SelectedCheque.transactionCapturedBy}}</h3>
+                        </div>
+                        <div>
+                            <h3>Captured On:{{SelectedCheque.transactionCaptureDate}}</h3>
+                        </div>
+                    </p-card>
                 </div>
 
             </div>
         </div>
         <div class="p-col-8">
-            <div class="p-grid ui-fluid">
-                <div class="p-col-2">
-                    <label for="ChequeNumber">Cheque Number</label>
-                    <input id="ChequeNumber" type="text" [(ngModel)]="SelectedCheque.serialNumber" pInputText>
-                </div>
-                <div class="p-col-2">
-                    <label for="BankCode">Bank Code</label>
-                    <input id="BankCode" type="text" [(ngModel)]="SelectedCheque.sortCode" pInputText>
-                </div>
-                <div class="p-col-2">
-                    <label for="ChequeType">Type</label>
-                    <input id="ChequeType" type="text" [(ngModel)]="SelectedCheque.voucherType" pInputText>
-                </div>
-                <div class="p-col-2">
-                    <label for="AccountNumber">Account</label>
-                    <input id="AccountNumber" type="text" [(ngModel)]="SelectedCheque.accountNumber" pInputText>
-                </div>
-                <div class="p-col-2">
-                    <label for="Amount">Amount</label>
-                    <input id="Amount" type="number" [(ngModel)]="SelectedCheque.amount" pInputText>
-                </div>
-                <div class="p-col-2">
-                    <label for="Narration">Narration</label>
-                    <input id="Narration" type="text" [(ngModel)]="SelectedCheque.narration" pInputText>
-                </div>
-            </div>
+            <p-table [columns]="cols" [value]="ScannedCheques" selectionMode="single" [(selection)]="SelectedCheque"
+                (onRowSelect)="onRowSelect($event)">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{col.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr [pSelectableRow]="rowData">
+                        <td *ngFor="let col of columns">
+                            {{rowData[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div style="text-align: left">
+                        Selected Cheque:
+                        {{SelectedCheque ? SelectedCheque.accountNumber + ' - ' + SelectedCheque.serialNumber : 'none'}}
+                    </div>
+                </ng-template>
+            </p-table>
         </div>
-        <div class="p-col-8">
-            <h2><strong>Depositor Details</strong></h2>
-            <div class="p-grid ui-fluid">
-                <div class="p-col-2">
-                    <label for="CRAccount">Account</label>
-                    <input id="ChequeNumber" type="text" [(ngModel)]="DepositSlip.depositorsAccount" pInputText>
-                </div>
-                <div class="p-col-1">
-                    <label for="CRBranchCode">Branch</label>
-                    <input id="CRBranchCode" type="text" [(ngModel)]="DepositSlip.depositorsBranch" pInputText>
-                </div>
-                <div class="p-col-2">
-                    <label for="CRAmount">Amount</label>
-                    <input id="CRAmount" type="number" [(ngModel)]="batchTotal" pInputText>
-                </div>
-                <div class="p-col-7">
-                    <label for="CRNaration">Naration</label>
-                    <input id="CRNaration" type="text" [(ngModel)]="DepositSlip.depositorsNarration" pInputText>
-                </div>
-                <div>
-                    <p-card header="Account Query Results" subheader="Account Information" 
-                        styleClass="ui-card-shadow">
-                        <div>
-                            <h3>Account Name:</h3>
-                        </div>
-                        <div>
-                            <h3>Currency:</h3>
-                        </div>
-                        <div>
-                            <h3>Status:</h3>
-                        </div>
-                    </p-card>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>

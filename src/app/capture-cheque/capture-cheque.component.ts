@@ -20,8 +20,11 @@ export class CaptureChequeComponent implements OnInit, AfterViewInit {
 
   title = 'web-scan33';
   imageUrl: string[];
+  errorMessage:string="";
   connection: HubConnection;
   ready: boolean = false;
+  displaySaveError:boolean=false;
+  displaySaveSuccess:boolean=false;
   initialized: boolean = false;
   ScannedCheques: Cheque[] = [];
   SelectedCheque: Cheque = {} as Cheque;
@@ -102,12 +105,35 @@ export class CaptureChequeComponent implements OnInit, AfterViewInit {
       item.payeeName=(!!this.DepositSlip.payeeName)?this.DepositSlip.payeeName:"";
 
     });
-    this.coreDataService.SaveModel(this.ScannedCheques);
+    this.coreDataService.SaveModel(this.ScannedCheques).subscribe(result => {
+      console.log("saveres", result)
+      this.showSuccess();
+      this.clearItems()
+    },
+      err => {
+        console.log('HTTP Error', err);
+        this.errorMessage=err.message;
+        this.showError();
+      },
+      () => console.log('HTTP request completed.')
+    );
   }
 
 
   batchBalancing(): boolean {
     return (this.batchTotal !== this.ScannedCheques.map(x => x.amount).reduce((x, y) => x + y, 0))||(this.batchTotal===0)
+  }
+  showSuccess(){
+    this.displaySaveSuccess=true;
+  }
+  showError(){
+    this.displaySaveError=true;
+  }
+  clearItems(){
+    this.ScannedCheques=[];
+    this.SelectedCheque={} as Cheque;
+    this.DepositSlip={}as Cheque;
+    this.imageUrl=undefined;
   }
 
 }
