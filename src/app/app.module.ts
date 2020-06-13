@@ -18,6 +18,19 @@ import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
 import {DialogModule} from 'primeng/dialog';
 import { AdminComponentComponent } from './Admin/admin-component/admin-component.component';
+import { HomeComponent } from './Home/home/home.component';
+import {PanelMenuModule} from 'primeng/panelmenu';
+import {MenuItem} from 'primeng/api';
+import { LoginComponent } from './authentication/components/login/login.component';
+import {TabMenuModule} from 'primeng/tabmenu';
+import { NewUserComponent } from './authentication/components/user/new-user.component';
+import { NewGroupComponent } from './authentication/components/groups/new-group.component';
+import { UserListComponent } from './authentication/components/user/user-list/user-list.component';
+import { EditUserComponent } from './authentication/components/user/edit-user/edit-user.component';
+import { GroupListComponent } from './authentication/components/groups/group-list/group-list.component';
+import { EditGroupComponent } from './authentication/components/groups/edit-group/edit-group.component';
+
+
 
 @NgModule({
   declarations: [
@@ -25,7 +38,15 @@ import { AdminComponentComponent } from './Admin/admin-component/admin-component
     CaptureChequeComponent,
     AuthorizeChequeComponent,
     ExportChequeComponent,
-    AdminComponentComponent
+    AdminComponentComponent,
+    HomeComponent,
+    LoginComponent,
+    NewUserComponent,
+    NewGroupComponent,
+    UserListComponent,
+    EditUserComponent,
+    GroupListComponent,
+    EditGroupComponent
   ],
   imports: [
     BrowserModule,
@@ -38,9 +59,11 @@ import { AdminComponentComponent } from './Admin/admin-component/admin-component
     ButtonModule,
     InputTextModule,
     CardModule,
-    DialogModule
+    DialogModule,
+    PanelMenuModule,
+    TabMenuModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [HomeComponent]
 })
 export class AppModule { }

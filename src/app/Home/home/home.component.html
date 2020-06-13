@@ -1,0 +1,32 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">Pyxis</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <div class="container" #menu (click)="myFunction(menu)">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</nav> 
+
+<div id="mySidenav" class="sidenav">
+  <p-panelMenu [model]="sideMenuItems" [style]="{'width':'245px'}"></p-panelMenu>
+</div>
+
+<div id="main">
+  <router-outlet></router-outlet> 
+</div>

@@ -1,0 +1,30 @@
+.login-wrapper{
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-color: #e3f2fd
+}
+.login-card{
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    margin: 0 auto;
+    padding: 30px;
+    text-align: center;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    box-shadow: 0 10px 20px rgba(0,0,0,.19), 0 6px 6px rgba(0,0,0,.23);
+    overflow: hidden;
+    border-radius: 3px;
+    max-width: 400px;
+}
+:host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: 2000;
+  }
