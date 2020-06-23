@@ -1,8 +1,22 @@
-<p-table #dt [columns]="cols" [value]="users" [paginator]="true" [rows]="10">
+
+<div>
+    <p-toolbar>
+        <div class="ui-toolbar-group-right">
+            <button pButton type="button" icon="pi pi-search"></button>
+            <button pButton type="button" icon="pi pi-plus" (click)='showNewUserDialog()' class="ui-button-success"></button>
+            <button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>
+        </div>
+    </p-toolbar>
+</div>
+<p-dialog header="New User" [(visible)]="displayNewUserDialog.open" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <app-new-user [closeDialod]="displayNewUserDialog"></app-new-user>
+</p-dialog>
+<p-table #dt [columns]="cols" [value]="users$ | async" [paginator]="true" selectionMode="single" [rows]="10">
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th *ngFor="let col of columns">
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
                 {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
             </th>
         </tr>
         <tr>

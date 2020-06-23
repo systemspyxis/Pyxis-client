@@ -30,7 +30,7 @@ export class MenuService {
           {
             label: 'Users',
             icon: 'pi pi-pw pi-user',
-            routerLink: "AddUser"
+            routerLink: "UserList"
           },
           {
             label: 'Groups',

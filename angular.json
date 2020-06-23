@@ -29,6 +29,8 @@
               "node_modules/primeng/resources/themes/nova-light/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ng-wizard/themes/ng_wizard.min.css",
+              "node_modules/ng-wizard/themes/ng_wizard_theme_arrows.min.css",
               "src/styles.css"
             ],
             "scripts": [

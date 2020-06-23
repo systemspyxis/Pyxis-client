@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { Component, OnInit, Input } from '@angular/core';
+
+import { NgWizardConfig, THEME, StepChangedArgs, NgWizardService } from 'ng-wizard';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-new-user',
@@ -7,17 +11,93 @@ import { MenuItem } from 'primeng/api';
   styleUrls: ['./new-user.component.css']
 })
 export class NewUserComponent implements OnInit {
-  items: MenuItem[];
-  activeItem: MenuItem;
-  constructor() { }
 
-  ngOnInit(): void {
-    this.items = [
-      {label: 'User'},
-      {label: 'Member Of'}, 
-      {label: 'Account'}
-  ];
+  @Input()
+  closeDialod: any;
+  config: NgWizardConfig = {
+    selected: 0,
+    theme: THEME.arrows,
+    toolbarSettings: {
+      toolbarExtraButtons: [
+        {
+          text: 'Finish',
+          class: 'btn btn-info',
+          event: () => {
+            //this.closeDialod.open = false;
+            this.createUserPayload = {
+              ...this.UserDetailForm.value,
+              groups: [...this.userGroups],
+              ...this.UserAccountForm.value
+            }
+            this.saveNewUser(this.createUserPayload)
+            console.log("createuser", this.createUserPayload)
+            
+            
+          }
+        }
+      ]
+    }
+  };
+  UserDetailForm: FormGroup;
+  UserMembershipForm: FormGroup;
+  UserAccountForm: FormGroup;
 
+  userGroups = [];
+  createUserPayload = {}
+  constructor(
+    private ngWizardService: NgWizardService, private fb: FormBuilder,
+    private authService: AuthService
+  ) {
+    this.initializeFormGroups();
   }
+
+  ngOnInit() {
+  }
+  stepChanged(args: StepChangedArgs) {
+    console.log(args.step);
+  }
+  saveNewUser(payload) {
+    this.authService.createUser(payload).subscribe(()=>{
+      this.UserDetailForm.reset();
+      this.userGroups=[];
+      this.UserAccountForm.reset();
+      this.closeDialod.open = false;
+      this.ngWizardService.reset()
+    });
+  }
+  initializeFormGroups() {
+    this.UserDetailForm = this.fb.group(
+      {
+        username: ['hey', []],
+        password: ['', []],
+        firstname: ['', []],
+        lastname: ['', []],
+        fullName: ['', []],
+        description: ['', []],
+        admin: ['', []]
+
+      }
+    );
+    this.UserMembershipForm = this.fb.group(
+      {
+        username: ['hey', []],
+        password: ['', []],
+        firstname: ['', []],
+        lastname: ['', []],
+        fullName: ['', []],
+        description: ['', []],
+        admin: ['', []]
+
+      }
+    );
+    this.UserAccountForm = this.fb.group(
+      {
+        email: ['hey', []],
+        mobile: ['', []]
+
+      }
+    );
+  }
+
 
 }

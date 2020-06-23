@@ -1,3 +1,14 @@
-<p-tabMenu [model]="items">
-</p-tabMenu>
+<ng-wizard [config]="config" (stepChanged)="stepChanged($event)">
+  <ng-wizard-step [title]="'User'" >
+    <app-user-detail [UserDetailForm]="UserDetailForm"></app-user-detail>
+  </ng-wizard-step>
+ 
+  <ng-wizard-step [title]="'Membership'" >
+    <app-user-membership [userGroups]="userGroups"></app-user-membership>
+  </ng-wizard-step>
+ 
+  <ng-wizard-step  [title]="'Account'" >
+    <app-user-account [UserAccountForm]="UserAccountForm"></app-user-account>
+  </ng-wizard-step>
 
+</ng-wizard>

@@ -9,5 +9,7 @@ export interface User {
     displayName:string;
     disabled:boolean;
     description:string;
-    lastLogin:string
+    lastLogin:string;
+    created:string;
+    admin:boolean;
 }

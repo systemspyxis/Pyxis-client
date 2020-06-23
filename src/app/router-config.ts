@@ -8,6 +8,9 @@ import { NewUserComponent } from './authentication/components/user/new-user.comp
 import { HomeComponent } from './Home/home/home.component';
 import { NewGroupComponent } from './authentication/components/groups/new-group.component';
 import { UserListComponent } from './authentication/components/user/user-list/user-list.component';
+import { UserDetailComponent } from './authentication/components/user/user-detail/user-detail.component';
+import { UserMembershipComponent } from './authentication/components/user/user-membership/user-membership.component';
+import { UserAccountComponent } from './authentication/components/user/user-account/user-account.component';
 
 const indexRoute:Route = {
     path: "",
@@ -26,12 +29,25 @@ export const routeConfig = [
     {
         path: 'AddUser',
         component: NewUserComponent,
+        children:[
+            {
+                path: 'User',
+                component: UserDetailComponent,
+                
+            },
+            {
+                path: 'Membership',
+                component: UserMembershipComponent,
+                
+            },
+            {
+                path: 'Account',
+                component: UserAccountComponent,
+                
+            }
+        ]
     },
-    {
-        path: 'User',
-        component: NewUserComponent,
-        outlet:'adduser'
-    },
+    
     {
         path: 'UserList',
         component: UserListComponent

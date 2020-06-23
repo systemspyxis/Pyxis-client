@@ -1,0 +1,9 @@
+<p-pickList [source]="availableGroups" [target]="userGroups" sourceHeader="Available" targetHeader="Selected" [responsive]="true" filterBy="brand"
+        dragdrop="true" sourceFilterPlaceholder="Search by brand" targetFilterPlaceholder="Search by brand" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
+    <ng-template let-group pTemplate="item">
+        <div class="ui-helper-clearfix">
+            <div style="display:inline-block;margin:2px 0 2px 2px" width="48"><i class="pi pi-user" style="font-size: 2em"></i></div>
+            <div style="font-size:14px;float:right;margin:5px 5px 0 0">{{group.name}}</div>
+        </div>
+    </ng-template>
+</p-pickList>

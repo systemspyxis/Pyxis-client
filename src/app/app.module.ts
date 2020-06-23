@@ -1,10 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule} from "@angular/forms";
+import { ReactiveFormsModule, FormsModule} from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import 'hammerjs';
-
 import { AppComponent } from './app.component';
 import { CaptureChequeComponent } from './capture-cheque/capture-cheque.component';
 import { RouterModule } from '@angular/router';
@@ -29,8 +28,20 @@ import { UserListComponent } from './authentication/components/user/user-list/us
 import { EditUserComponent } from './authentication/components/user/edit-user/edit-user.component';
 import { GroupListComponent } from './authentication/components/groups/group-list/group-list.component';
 import { EditGroupComponent } from './authentication/components/groups/edit-group/edit-group.component';
+import { UserDetailComponent } from './authentication/components/user/user-detail/user-detail.component';
+import { UserMembershipComponent } from './authentication/components/user/user-membership/user-membership.component';
+import { UserAccountComponent } from './authentication/components/user/user-account/user-account.component';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {CheckboxModule} from 'primeng/checkbox';
+import {PickListModule} from 'primeng/picklist';
+import {ToolbarModule} from 'primeng/toolbar';
+import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 
 
+
+const ngWizardConfig: NgWizardConfig = {
+  theme: THEME.arrows
+};
 
 @NgModule({
   declarations: [
@@ -46,12 +57,16 @@ import { EditGroupComponent } from './authentication/components/groups/edit-grou
     UserListComponent,
     EditUserComponent,
     GroupListComponent,
-    EditGroupComponent
+    EditGroupComponent,
+    UserDetailComponent,
+    UserMembershipComponent,
+    UserAccountComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(routeConfig),
     BrowserAnimationsModule,
     TableModule,
@@ -61,7 +76,12 @@ import { EditGroupComponent } from './authentication/components/groups/edit-grou
     CardModule,
     DialogModule,
     PanelMenuModule,
-    TabMenuModule
+    TabMenuModule,
+    RadioButtonModule,
+    CheckboxModule,
+    PickListModule,
+    ToolbarModule,
+    NgWizardModule.forRoot(ngWizardConfig)
   ],
   providers: [],
   bootstrap: [HomeComponent]

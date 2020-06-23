@@ -1,0 +1,38 @@
+<form [formGroup]="UserDetailForm" autocomplete="off" novalidate>
+    <div class="ui-fluid">
+        <div class="p-field">
+            <label for="username">Username</label>
+            <input id="username" formControlName="username" type="text" pInputText> 
+        </div>
+        <div class="p-field">
+            <label for="password">Password</label>
+            <input id="password" formControlName="password" type="password" pInputText> 
+        </div>
+        <div class="p-field">
+            <label for="firstname">Firstname</label>
+            <input id="firstname" formControlName="firstname" type="text" pInputText> 
+        </div>
+        <div class="p-field">
+            <label for="lastname">Lastname</label>
+            <input id="lastname" formControlName="lastname" type="text" pInputText> 
+        </div>
+        <div class="p-field">
+            <label for="fullName">Full Name</label>
+            <input id="fullName" formControlName="fullName" type="text" pInputText> 
+        </div>
+        <div class="p-field">
+            <label for="description">Description</label>
+            <textarea id="description" formControlName="description" type="text" rows="4" pInputText></textarea>
+        </div>
+        
+    </div>
+    <div class="p-formgroup-inline">
+        <div class="p-field-checkbox">
+            <p-checkbox name="admin" formControlName="admin" value="Chicago"  inputId="admin"></p-checkbox>
+            <label for="admin">Admin User</label>
+        </div>
+    </div>
+    <div>
+        {{UserDetailForm.value |json}}
+    </div>
+</form>
