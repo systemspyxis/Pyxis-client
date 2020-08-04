@@ -1,4 +1,4 @@
-<ng-wizard [config]="config" (stepChanged)="stepChanged($event)">
+<ng-wizard [config]="config"  (stepChanged)="stepChanged($event)">
   <ng-wizard-step [title]="'User'" >
     <app-user-detail [UserDetailForm]="UserDetailForm"></app-user-detail>
   </ng-wizard-step>

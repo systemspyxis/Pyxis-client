@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { NgWizardConfig, THEME, StepChangedArgs, NgWizardService } from 'ng-wizard';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 
 
@@ -56,6 +56,10 @@ export class NewUserComponent implements OnInit {
   stepChanged(args: StepChangedArgs) {
     console.log(args.step);
   }
+  showNextStep(event?: Event) {
+    console.log("next");
+    this.ngWizardService.next();
+  }
   saveNewUser(payload) {
     this.authService.createUser(payload).subscribe(()=>{
       this.UserDetailForm.reset();
@@ -68,10 +72,10 @@ export class NewUserComponent implements OnInit {
   initializeFormGroups() {
     this.UserDetailForm = this.fb.group(
       {
-        username: ['hey', []],
-        password: ['', []],
-        firstname: ['', []],
-        lastname: ['', []],
+        username: ['', [Validators.required,Validators.minLength(5)]],
+        password: ['', [Validators.required]],
+        firstname: ['', [Validators.required]],
+        lastname: ['', [Validators.required]],
         fullName: ['', []],
         description: ['', []],
         admin: ['', []]
@@ -92,7 +96,7 @@ export class NewUserComponent implements OnInit {
     );
     this.UserAccountForm = this.fb.group(
       {
-        email: ['hey', []],
+        email: ['', [Validators.required]],
         mobile: ['', []]
 
       }

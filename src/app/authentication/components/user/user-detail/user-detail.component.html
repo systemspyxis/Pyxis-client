@@ -4,6 +4,11 @@
             <label for="username">Username</label>
             <input id="username" formControlName="username" type="text" pInputText> 
         </div>
+        <div *ngIf="UserDetailForm.get('username').invalid && (UserDetailForm.get('username').dirty || UserDetailForm.get('username').touched)" class="alert alert-danger">
+            <div *ngIf="UserDetailForm.get('username').errors.required">
+                Username is required.
+              </div>
+        </div>
         <div class="p-field">
             <label for="password">Password</label>
             <input id="password" formControlName="password" type="password" pInputText> 
@@ -28,11 +33,12 @@
     </div>
     <div class="p-formgroup-inline">
         <div class="p-field-checkbox">
-            <p-checkbox name="admin" formControlName="admin" value="Chicago"  inputId="admin"></p-checkbox>
+            <p-checkbox name="admin" formControlName="admin" value="isAdmin"  inputId="admin"></p-checkbox>
             <label for="admin">Admin User</label>
         </div>
     </div>
     <div>
         {{UserDetailForm.value |json}}
+        Form is: {{UserDetailForm.valid}}
     </div>
 </form>
